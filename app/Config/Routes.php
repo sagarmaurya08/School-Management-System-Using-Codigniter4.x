@@ -181,6 +181,38 @@ $routes->group('expenses', ['filter' => 'authGuard'], function($routes)
         $routes->get('delete/(:num)', 'ExpenseController::deleteExpense/$1');
     });
 });
+
+//hr menu routes....
+$routes->group('hr', ['filter' => 'authGuard'], function($routes)
+{
+    $routes->group('department', function($routes)     //department submenu routes....
+    {
+        $routes->get('/', 'DepartmentController::show');
+        $routes->post('save', 'DepartmentController::insertDepartment');
+        $routes->get('edit/(:num)', 'DepartmentController::editDepartment/$1');
+        $routes->post('update/(:num)', 'DepartmentController::updateDepartment/$1');
+        $routes->get('delete/(:num)', 'DepartmentController::deleteDepartment/$1');
+    });
+
+    $routes->group('teacher', function($routes)     //teacher submenu routes....
+    {
+        $routes->get('/', 'TeacherController::show');
+        $routes->get('add', 'TeacherController::showTeacherForm');
+        $routes->post('save', 'TeacherController::insertTeacher');
+        $routes->get('edit/(:num)', 'TeacherController::editTeacher/$1');
+        $routes->post('update/(:num)', 'TeacherController::updateTeacher/$1');
+        $routes->get('delete/(:num)', 'TeacherController::deleteTeacher/$1');
+    });
+});
+
+
+
+
+
+$routes->get('/api', 'RestController::index');
+$routes->post('/create', 'RestController::create');
+$routes->get('/show/(:num)', 'RestController::show/$1');
+
 /*
  * --------------------------------------------------------------------
  * Additional RoutingEnquiryCategoryController

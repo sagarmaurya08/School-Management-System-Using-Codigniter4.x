@@ -210,6 +210,23 @@ $id = session()->get('id');
             </ul>
           </li>
 
+          <li class="nav-item <?=($segment1=='hr') ? "menu-open" : "";?>">
+            <a href="#" class="nav-link <?=($segment1=='hr') ? "active" : "";?>">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Human Resources
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?= base_url('/hr/department');?>" class="nav-link <?=($segment2=='department') ? "active" : "";?>">
+                  <i class="fas fa-angle-double-right"></i>
+                  <p>Department</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item <?=($segment1=='expenses') ? "menu-open" : "";?>">
             <a href="#" class="nav-link <?=($segment1=='expenses') ? "active" : "";?>">
               <i class="nav-icon fas fa-book"></i>
