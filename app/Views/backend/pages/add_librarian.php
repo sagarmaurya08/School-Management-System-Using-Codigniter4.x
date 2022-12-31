@@ -49,7 +49,7 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-10">
                     <input type="text" class="form-control" name="name" value="<?= (isset($editLibrarianData['name'])) ? $editLibrarianData['name'] : set_value('name');?>">
-                    <input type="hidden" class="form-control" name="librarian_number" value="<?= (isset($editLibrarianData['librarian_number'])) ? $editLibrarianData['librarian_number'] : substr(md5(uniqid(rand(), true)),0,10);;?>">
+                    <input type="hidden" class="form-control" name="librarian_number" value="<?= (isset($editLibrarianData['librarian_number'])) ? $editLibrarianData['librarian_number'] : substr(md5(uniqid(rand(), true)),0,10);?>">
                     </div>
                   </div>
                 </div>

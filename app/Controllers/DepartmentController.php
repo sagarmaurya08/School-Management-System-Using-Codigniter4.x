@@ -112,4 +112,12 @@ class DepartmentController extends BaseController
             return redirect()->to('/hr/department');
         }
     }
+
+    public function get_designation($department_id=null)
+    {
+        $designation = $this->designationModel->where('department_id', $department_id)->find();
+        foreach($designation as $row){
+            echo '<option value="'.$row['designation_id'].'">'.$row['name'].'</option>';
+        }
+    }
 }

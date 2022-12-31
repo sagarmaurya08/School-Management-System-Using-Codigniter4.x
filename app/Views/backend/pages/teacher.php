@@ -49,7 +49,7 @@
                     foreach ($teacherData as $teacherData):   ?>
                   <tr>
                     <td>
-                        <img src="<?=base_url();?>/backend/uploads/hostel/<?=$teacherData['file_name']?>" class="img-circle img-size-32 mr-3" alt="User Image">
+                        <img src="<?=base_url();?>/backend/uploads/teacher/<?=$teacherData['file_name']?>" class="img-circle img-size-32 mr-3" alt="User Image">
                     </td>
                     <td><?= $teacherData['name']?></td>
                     <td><?= $teacherData['email']?></td>

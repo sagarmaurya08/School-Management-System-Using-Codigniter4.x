@@ -42,7 +42,7 @@
               <?php if(isset($editTeacherData)){ ?>
               <form method="post" action="<?= base_url();?>/hr/teacher/update/<?= $editTeacherData['teacher_id'];?>" enctype="multipart/form-data" class="form-horizontal">
                 <?php } else { ?>
-              <form method="post" action="<?= base_url('/hr/teacher/save');?>" enctype="multipart/form-data" class="form-horizontal">
+              <form method="post" action="<?= base_url('/hr/teacher/save');?>" class="form-horizontal" enctype="multipart/form-data">
                 <?php } ?> 
                 <div class="row">
                   <div class="col-md-6">
@@ -51,7 +51,7 @@
                         <label for="inputEmail3" class="col-form-label">Name</label>
                         <div class="col-sm-10">
                         <input type="text" class="form-control" name="name" value="<?= (isset($editTeacherData['name'])) ? $editTeacherData['name'] : set_value('name');?>">
-                        <input type="hidden" class="form-control" name="hostel_number" value="<?= (isset($editTeacherData['hostel_number'])) ? $editTeacherData['hostel_number'] : substr(md5(uniqid(rand(), true)),0,10);;?>">
+                        <input type="hidden" class="form-control" name="teacher_number" value="<?= (isset($editTeacherData['teacher_number'])) ? $editTeacherData['teacher_number'] : substr(md5(uniqid(rand(), true)),0,10);?>">
                         </div>
                       </div>
                     </div>
@@ -63,6 +63,14 @@
                             <option <?php if(isset($editTeacherData['role'])) echo ($editTeacherData['role']=='class_teacher') ? 'selected' : '';?> value='class_teacher'>Class teacher</option>
                             <option <?php if(isset($editTeacherData['role'])) echo ($editTeacherData['role']=='subject_teacher') ? 'selected' : '';?> value='subject_teacher'>Subject teacher</option>
                           </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group ">
+                        <label for="inputEmail3" class="col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" name="email" value="<?= (isset($editTeacherData['email'])) ? $editTeacherData['email'] : set_value('email');?>">
                         </div>
                       </div>
                     </div>
@@ -197,9 +205,17 @@
                       <div class="form-group">
                         <label for="inputEmail3" class="col-form-label">Department</label>
                         <div class="col-sm-10">
-                          <select class="form-control" name="department_id">
-                            <option <?php if(isset($editTeacherData['department_id'])) echo ($editTeacherData['department_id']=='married') ? 'selected' : '';?> value='married'>Married</option>
-                            <option <?php if(isset($editTeacherData['department_id'])) echo ($editTeacherData['department_id']=='single') ? 'selected' : '';?> value='single'>Single</option>
+                          <select class="form-control" name="department_id" onchange="get_designation_val(this.value)">
+                            <?php if(isset($departmentData)){ ?>
+                              <option>Select department</option>
+                              <?php
+                              foreach($departmentData as $dData): ?>
+                            <option <?php if(isset($editTeacherData['department_id'])) echo ($editTeacherData['department_id']==$dData['department_id']) ? 'selected' : '';?> value="<?= $dData['department_id']?>"><?= $dData['name']?></option>
+                              <?php endforeach;
+                              }else{
+                                ?> <option>No department</option>
+                                <?php
+                              }?>
                           </select>
                         </div>
                       </div>
@@ -208,9 +224,11 @@
                       <div class="form-group">
                         <label for="inputEmail3" class="col-form-label">Designation</label>
                         <div class="col-sm-10">
-                          <select class="form-control" name="designation_id">
-                            <option <?php if(isset($editTeacherData['designation_id'])) echo ($editTeacherData['designation_id']=='married') ? 'selected' : '';?> value='married'>Married</option>
-                            <option <?php if(isset($editTeacherData['designation_id'])) echo ($editTeacherData['designation_id']=='single') ? 'selected' : '';?> value='single'>Single</option>
+                          <select class="form-control select2" name="designation_id" id="designation_holder">
+                          <option>Select a department first</option>
+                          <?php if(isset($designationData)){ ?>
+                            <option <?php if(isset($editTeacherData['designation_id'])) echo ($editTeacherData['designation_id']==$designationData['designation_id']) ? 'selected' : '';?> value="<?= $designationData['designation_id']?>"><?= $designationData['name']?></option>
+                              <?php } ?>
                           </select>
                         </div>
                       </div>
@@ -219,7 +237,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Date of joining</label>
                         <div class="col-sm-10">
-                          <input type="date" class="form-control" name="date_of_join" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="date" class="form-control" name="date_of_join" value="<?= (isset($editTeacherData['date_of_join'])) ? $editTeacherData['date_of_join'] : set_value('date_of_join');?>">
                         </div>
                       </div>
                     </div>
@@ -227,7 +245,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Joining salary</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['joining_salary'])) ? $editTeacherData['joining_salary'] : set_value('joining_salary');?>">
                         </div>
                       </div>
                     </div>
@@ -251,7 +269,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Account Holder Name</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="text" class="form-control" name="account_holder_name" value="<?= (isset($bankData['account_holder_name'])) ? $bankData['account_holder_name'] : set_value('account_holder_name');?>">
                         </div>
                       </div>
                     </div>
@@ -259,7 +277,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Account Number</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="text" class="form-control" name="account_number" value="<?= (isset($bankData['account_number'])) ? $bankData['account_number'] : set_value('account_number');?>">
                         </div>
                       </div>
                     </div>
@@ -267,7 +285,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Bank Name</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="text" class="form-control" name="bank_name" value="<?= (isset($bankData['bank_name'])) ? $bankData['bank_name'] : set_value('bank_name');?>">
                         </div>
                       </div>
                     </div>
@@ -275,7 +293,7 @@
                       <div class="form-group ">
                         <label for="inputEmail3" class="col-form-label">Branch</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" name="joining_salary" value="<?= (isset($editTeacherData['birthday'])) ? $editTeacherData['birthday'] : set_value('birthday');?>">
+                          <input type="text" class="form-control" name="branch" value="<?= (isset($bankData['branch'])) ? $bankData['branch'] : set_value('branch');?>">
                         </div>
                       </div>
                     </div>
@@ -297,5 +315,21 @@
     </section>
     <!-- /.content -->
   </div>
+  <script>
+   function get_designation_val(department_id) {
+    if(department_id!=''){
+      $.ajax({
+        url:'<?= base_url()?>/ajax/get_designation/'+ department_id,
+        success:function(response){
+          console.log(response);
+          jQuery('#designation_holder').html(response);
+        }
+      })
+    }
+    else{
+      jQuery('#designation_holder').html('<option>Select a department first</option>');
+    }
+   }
+  </script>
 
 <?= $this->endSection() ?>

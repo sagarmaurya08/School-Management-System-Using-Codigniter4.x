@@ -207,7 +207,11 @@ $routes->group('hr', ['filter' => 'authGuard'], function($routes)
 
 
 
-
+//call ajax request routes............
+$routes->group('ajax', ['filter' => 'authGuard'], function($routes)     //teacher submenu routes....
+    {
+        $routes->get('get_designation/(:num)', 'DepartmentController::get_designation/$1');
+    });
 
 $routes->get('/api', 'RestController::index');
 $routes->post('/create', 'RestController::create');
